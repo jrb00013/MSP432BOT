@@ -3,7 +3,7 @@
 Control a robot using the MSP432 microcontroller with C programming.
 
 ## 🚀 Key Files:
-- **main.c**: Main loop for robot control.
+- **main.c**: Main loop for autonomous motor control.
 - **motor_control.c**: Controls the motors.
 - **pid_controller.c**: PID logic for movement.
 - **uart.c**: Serial communication with the PC.
