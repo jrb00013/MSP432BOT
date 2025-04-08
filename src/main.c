@@ -1,11 +1,12 @@
 #include "msp.h"
 #include "motor_control.h"
-#include "sensors.h"
 #include "pid_controller.h"
+#include "sensors.h"
 #include "uart.h"
 
 #define MOTOR_SPEED 500
 #define TURN_ANGLE  90
+#define SOME_THRESHOLD 10
 
 int main(void) {
     // Initialize the MSP432
