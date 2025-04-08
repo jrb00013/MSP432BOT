@@ -1,24 +1,22 @@
-CC = gcc
-CFLAGS = -Wall -O2 -g
+CC = msp430-gcc
+CFLAGS = -Wall -g -I./include
+SRC_DIR = src
+BUILD_DIR = build
 
-# Target MCU
-MCU = msp432
+SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
+OBJ_FILES = $(SRC_FILES:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
+TARGET = $(BUILD_DIR)/MSP432BOT.elf
 
-# File names
-SRC = main.c motor_control.c sensors.c pid_controller.c uart.c
-OBJ = $(SRC:.c=.o)
-EXEC = robot
+all: $(TARGET)
 
-# Compiler options
-LDFLAGS = -lm
+$(TARGET): $(OBJ_FILES)
+	$(CC) $(OBJ_FILES) -o $(TARGET)
 
-all: $(EXEC)
-
-$(EXEC): $(OBJ)
-	$(CC) $(OBJ) $(LDFLAGS) -o $(EXEC)
-
-%.o: %.c
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJ) $(EXEC)
+	rm -rf $(BUILD_DIR)
+
+.PHONY: all clean
