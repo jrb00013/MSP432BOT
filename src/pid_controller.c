@@ -7,19 +7,23 @@ static float kd = 0.1;  // Derivative gain
 static float previous_error = 0;
 static float integral = 0;
 
-// PID control function
-int pid_control(int sensor_value) {
-    // Example of basic PID control
-    int setpoint = 100;  // Desired sensor value (e.g., distance)
-    float error = setpoint - sensor_value;
-    integral += error;
-    float derivative = error - previous_error;
+
+int pid_control(PID* pid, int sensor_value, int setpoint) {
+    // Error calculation
+    int error = setpoint - sensor_value;
+    pid->integral += error;
     
-    // Calculate control signal
-    float control_signal = (kp * error) + (ki * integral) + (kd * derivative);
+    // Anti-windup: Prevent integral term from growing too large
+    if (pid->integral > 1000) pid->integral = 1000;
+    if (pid->integral < -1000) pid->integral = -1000;
 
-    // Update previous error
-    previous_error = error;
+    int derivative = error - pid->previous_error;
 
-    return (int)control_signal;  // Return control signal to adjust motor speed
+    // Compute control signal
+    int control_signal = (pid->kp * error) + (pid->ki * pid->integral) + (pid->kd * derivative);
+    
+    // Save error for the next iteration
+    pid->previous_error = error;
+    
+    return control_signal;
 }
