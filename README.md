@@ -9,7 +9,7 @@ Control a robot using the MSP432 microcontroller with C programming.
 - **sensors.c**: Functions to read data from sensors.
 - **uart.c**: UART communication for data transmission.
 - **msp.h**: Header file containing MSP432 register definitions.
-- **Makefile**: Build automation file.
+
 
 ## How to Compile and Run:
 1. Compile using the provided `Makefile`.
